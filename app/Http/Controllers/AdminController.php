@@ -25,4 +25,15 @@ class AdminController extends Controller
         $customers = User::where('role', 'customer')->get();
         return view('admin.customers', compact('customers'));
     }
+
+    public function returnVehicle($bookingId)
+    {
+        $booking = Booking::findOrFail($bookingId);
+        $booking->update(['status' => 'completed']);
+
+        $vehicle = $booking->vehicle;
+        $vehicle->update(['status' => 'available']);
+
+        return redirect()->back()->with('success', 'Vehicle returned successfully.');
+    }
 }
