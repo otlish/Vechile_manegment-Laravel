@@ -59,7 +59,7 @@
                 <a href="{{ route('admin.customers') }}" class="nav-link {{ request()->routeIs('admin.customers') ? 'active' : '' }}">
                     <i class="fas fa-users"></i> Customers
                 </a>
-                <a href="#" class="nav-link">
+                <a href="{{ route('admin.rentals') }}" class="nav-link {{ request()->routeIs('admin.rentals') ? 'active' : '' }}">
                     <i class="fas fa-calendar-check"></i> Rentals
                 </a>
                  <a href="#" class="nav-link">

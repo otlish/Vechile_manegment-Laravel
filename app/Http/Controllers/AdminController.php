@@ -26,6 +26,14 @@ class AdminController extends Controller
         return view('admin.customers', compact('customers'));
     }
 
+    public function rentals()
+    {
+        $rentals = Booking::with(['user', 'vehicle'])
+                          ->where('status', 'active')
+                          ->get();
+        return view('admin.rentals', compact('rentals'));
+    }
+
     public function returnVehicle($bookingId)
     {
         $booking = Booking::findOrFail($bookingId);

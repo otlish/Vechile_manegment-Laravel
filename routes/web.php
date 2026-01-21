@@ -19,6 +19,7 @@ use App\Http\Controllers\AdminController;
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/customers', [AdminController::class, 'customers'])->name('customers');
+    Route::get('/rentals', [AdminController::class, 'rentals'])->name('rentals');
     Route::post('/bookings/{booking}/return', [AdminController::class, 'returnVehicle'])->name('bookings.return');
 });
 
