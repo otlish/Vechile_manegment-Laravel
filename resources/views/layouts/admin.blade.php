@@ -56,7 +56,7 @@
                 <a href="#" class="nav-link">
                     <i class="fas fa-car"></i> Vehicles
                 </a>
-                <a href="#" class="nav-link">
+                <a href="{{ route('admin.customers') }}" class="nav-link {{ request()->routeIs('admin.customers') ? 'active' : '' }}">
                     <i class="fas fa-users"></i> Customers
                 </a>
                 <a href="#" class="nav-link">

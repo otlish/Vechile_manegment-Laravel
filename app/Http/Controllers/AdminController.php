@@ -19,4 +19,10 @@ class AdminController extends Controller
 
         return view('admin.dashboard', compact('totalVehicles', 'availableVehicles', 'activeRentals', 'totalCustomers'));
     }
+
+    public function customers()
+    {
+        $customers = User::where('role', 'customer')->get();
+        return view('admin.customers', compact('customers'));
+    }
 }
