@@ -21,4 +21,15 @@ class CustomerController extends Controller
 
         return view('dashboard', compact('activeRentals'));
     }
+
+    public function history()
+    {
+        $history = Booking::with('vehicle')
+            ->where('user_id', Auth::id())
+            ->where('status', 'completed')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('history', compact('history'));
+    }
 }
