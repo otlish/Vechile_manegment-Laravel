@@ -3,38 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Vehicle Management</title>
+    <title>Admin Dashboard - VehicleRent</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        body { min-height: 100vh; display: flex; flex-direction: column; }
+        :root {
+            --primary-color: #0f172a; /* Slate 900 - Deep Navy */
+            --accent-color: #d97706; /* Amber 600 - Muted Gold */
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-light: #f1f5f9;
+        }
+
+        body { 
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--primary-color) !important;
+            letter-spacing: -0.5px;
+        }
+
         .wrapper { display: flex; flex: 1; }
-        .sidebar { min-width: 250px; background: #343a40; color: white; min-height: 100vh; }
-        .sidebar .nav-link { color: rgba(255,255,255,.8); padding: 15px 20px; }
-        .sidebar .nav-link:hover, .sidebar .nav-link.active { color: white; background: rgba(255,255,255,.1); }
-        .sidebar .nav-link i { width: 25px; text-align: center; margin-right: 10px; }
-        .content { flex: 1; background: #f8f9fa; padding: 20px; }
-        .card-icon { font-size: 3rem; opacity: 0.3; position: absolute; right: 20px; top: 20px; }
+        
+        .sidebar { 
+            min-width: 260px; 
+            background: var(--primary-color);
+            color: white; 
+            min-height: calc(100vh - 70px);
+            box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+        }
+        
+        .sidebar .nav-link { 
+            color: rgba(255,255,255,0.7) !important; 
+            padding: 1rem 1.5rem; 
+            font-weight: 500;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar .nav-link:hover, .sidebar .nav-link.active { 
+            color: white !important; 
+            background: rgba(255,255,255,0.05); 
+            border-left-color: var(--accent-color);
+        }
+        
+        .sidebar .nav-link i { 
+            width: 25px; 
+            text-align: center; 
+            margin-right: 10px; 
+            color: var(--accent-color);
+        }
+        
+        .content { 
+            flex: 1; 
+            padding: 2rem; 
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-icon { 
+            font-size: 3rem; 
+            opacity: 0.2; 
+            position: absolute; 
+            right: 20px; 
+            top: 20px; 
+        }
+        
+        .btn-primary-custom {
+            background-color: var(--primary-color);
+            color: white;
+        }
     </style>
 </head>
 <body>
 
     <!-- Top Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Vehicle Admin</a>
-            <div class="d-flex">
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="{{ url('/') }}">
+                <i class="fas fa-car-side me-2 text-accent"></i>VehicleRent <span class="badge bg-light text-dark ms-2 border" style="font-size: 0.7rem; vertical-align: middle;">ADMIN</span>
+            </a>
+            <div class="d-flex align-items-center">
                  <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ Auth::user()->name }}
+                    <button class="btn btn-light dropdown-toggle d-flex align-items-center gap-2 border-0" type="button" data-bs-toggle="dropdown">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;">
+                            {{ substr(Auth::user()->name, 0, 1) }}
+                        </div>
+                        <span class="d-none d-md-block fw-bold small text-dark">{{ Auth::user()->name }}</span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button class="dropdown-item" type="submit">Log Out</button>
+                                <button class="dropdown-item text-danger" type="submit"><i class="fas fa-sign-out-alt me-2"></i>Log Out</button>
                             </form>
                         </li>
                     </ul>
@@ -46,10 +127,10 @@
     <div class="wrapper">
         <!-- Sidebar -->
         <nav class="sidebar">
-            <div class="py-3 text-center border-bottom border-secondary">
-                <h5>Admin Panel</h5>
+            <div class="py-4 px-4">
+                <small class="text-uppercase text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 1px;">Main Menu</small>
             </div>
-            <div class="nav flex-column mt-3">
+            <div class="nav flex-column">
                 <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i class="fas fa-tachometer-alt"></i> Dashboard
                 </a>
