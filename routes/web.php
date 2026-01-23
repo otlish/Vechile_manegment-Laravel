@@ -4,8 +4,11 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Vehicle;
+
 Route::get('/', function () {
-    return view('welcome');
+    $featuredVehicles = Vehicle::where('status', 'available')->latest()->take(3)->get();
+    return view('welcome', compact('featuredVehicles'));
 });
 
 use App\Http\Controllers\CustomerController;
