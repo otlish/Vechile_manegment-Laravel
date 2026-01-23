@@ -1,205 +1,412 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ config('app.name', 'VehicleRent') }}</title>
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="antialiased bg-gray-50 text-gray-900 font-sans">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ config('app.name', 'VehicleRent') }}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #0f172a; /* Slate 900 - Deep Navy */
+            --accent-color: #d97706; /* Amber 600 - Muted Gold */
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+        }
         
-        <!-- Navbar -->
-        <nav class="bg-white shadow-sm fixed w-full z-10 transition-all duration-300">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16">
-                    <div class="flex items-center">
-                        <a href="{{ url('/') }}" class="flex items-center gap-2">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                            <span class="font-bold text-xl tracking-tight text-gray-800">VehicleRent</span>
-                        </a>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        @if (Route::has('login'))
-                            @auth
-                                <a href="{{ url('/dashboard') }}" class="text-sm font-semibold text-gray-600 hover:text-gray-900">Dashboard</a>
-                            @else
-                                <a href="{{ route('login') }}" class="text-sm font-semibold text-gray-600 hover:text-gray-900">Log in</a>
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="ml-4 px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-md hover:bg-indigo-700 transition">Register</a>
-                                @endif
-                            @endauth
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </nav>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--text-dark);
+        }
+        
+        /* Navbar */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            padding: 1.2rem 0;
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.6rem;
+            color: var(--primary-color) !important;
+            letter-spacing: -0.5px;
+        }
+        .nav-link {
+            font-weight: 600;
+            color: var(--text-dark) !important;
+            margin-left: 1.5rem;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            background-color: var(--primary-color);
+            padding: 9rem 0 7rem;
+            overflow: hidden;
+        }
+        .hero-bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            mix-blend-mode: overlay;
+        }
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: white;
+            line-height: 1.1;
+        }
+        .btn-primary-custom {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+        .btn-primary-custom:hover {
+            background-color: #b45309; /* Darker Amber */
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(217, 119, 6, 0.4);
+            color: white;
+        }
+        .btn-outline-custom {
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.9rem 2.5rem;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+        .btn-outline-custom:hover {
+            background-color: white;
+            color: var(--primary-color);
+            border-color: white;
+        }
+        
+        /* Features */
+        .feature-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            height: 100%;
+            border: 1px solid #e2e8f0;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-color);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Vehicle Cards */
+        .vehicle-card {
+            border: none;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            background: white;
+        }
+        .vehicle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .vehicle-img {
+            height: 240px;
+            object-fit: cover;
+        }
+        .price-tag {
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 1.5rem;
+        }
+        .btn-rent {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 700;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+        .btn-rent:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--primary-color);
+            color: #94a3b8;
+            padding: 5rem 0 3rem;
+        }
+        .footer-heading {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+        .footer a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer a:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Utilities */
+        .text-primary-dark {
+            color: var(--primary-color);
+        }
+        .text-accent {
+            color: var(--accent-color);
+        }
+        .badge-brand {
+            background-color: #f1f5f9;
+            color: var(--text-dark);
+            font-weight: 600;
+            padding: 0.5em 1em;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
 
-        <!-- Hero Section -->
-        <div class="relative bg-gray-900 overflow-hidden pt-16">
-            <div class="absolute inset-0">
-                <img class="w-full h-full object-cover opacity-40" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Luxury Car Background">
-                <div class="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent"></div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url('/') }}">
+                <i class="fas fa-car-side me-2 text-accent"></i>VehicleRent
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    @if (Route::has('login'))
+                        @auth
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/dashboard') }}">Dashboard</a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">Log in</a>
+                            </li>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="btn btn-primary-custom ms-3" href="{{ route('register') }}">Register</a>
+                                </li>
+                            @endif
+                        @endauth
+                    @endif
+                </ul>
             </div>
-            <div class="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
-                <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
-                    Drive Your Dreams <br class="hidden sm:block"> <span class="text-indigo-400">Today</span>
-                </h1>
-                <p class="mt-6 text-xl text-gray-300 max-w-3xl">
-                    Experience the thrill of the open road with our premium fleet of vehicles. Affordable rates, flexible booking, and 24/7 support.
-                </p>
-                <div class="mt-10 max-w-sm sm:flex sm:max-w-none">
-                    @auth
-                         <a href="{{ url('/dashboard') }}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-100 md:py-4 md:text-lg md:px-10">
-                            Book Now
-                        </a>
-                    @else
-                        <a href="{{ route('register') }}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-100 md:py-4 md:text-lg md:px-10">
-                            Get Started
-                        </a>
-                        <a href="#featured" class="mt-3 w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10 sm:mt-0 sm:ml-3">
-                            View Cars
-                        </a>
-                    @endauth
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <img src="https://images.unsplash.com/photo-1503376763036-066120622c74?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Car Background" class="hero-bg-image">
+        <div class="container hero-content text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <h1 class="hero-title">Elevate Your Journey</h1>
+                    <p class="lead mb-5 opacity-90 fs-4">Premium fleet. Transparent prices. Unforgettable experiences.</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        @auth
+                             <a href="{{ url('/dashboard') }}" class="btn btn-primary-custom">Book Your Ride</a>
+                        @else
+                            <a href="{{ route('register') }}" class="btn btn-primary-custom">Start Now</a>
+                            <a href="#featured" class="btn btn-outline-custom">View Fleet</a>
+                        @endauth
+                    </div>
                 </div>
             </div>
         </div>
+    </header>
 
-        <!-- Features Section -->
-        <div class="py-16 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="lg:text-center">
-                    <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Why Choose Us</h2>
-                    <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        A better way to rent
-                    </p>
-                    <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                        We prioritize your comfort and safety with our top-notch services.
-                    </p>
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h6 class="text-accent fw-bold text-uppercase letter-spacing-2">Why Choose Us</h6>
+                <h2 class="fw-bold display-5 text-primary-dark">Excellence in Motion</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-car feature-icon"></i>
+                        <h4 class="fw-bold mb-3 text-primary-dark">Premium Selection</h4>
+                        <p class="text-muted">Curated collection of top-tier vehicles maintained to the highest standards.</p>
+                    </div>
                 </div>
-
-                <div class="mt-10">
-                    <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
-                        <div class="relative">
-                            <dt>
-                                <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
-                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                    </svg>
-                                </div>
-                                <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Wide Selection</p>
-                            </dt>
-                            <dd class="mt-2 ml-16 text-base text-gray-500">
-                                From economy to luxury, SUVs to sports cars, we have the perfect ride for any occasion.
-                            </dd>
-                        </div>
-
-                        <div class="relative">
-                            <dt>
-                                <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
-                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Best Prices</p>
-                            </dt>
-                            <dd class="mt-2 ml-16 text-base text-gray-500">
-                                Competitive daily rates and special weekend offers to keep your wallet happy.
-                            </dd>
-                        </div>
-
-                        <div class="relative">
-                            <dt>
-                                <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
-                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Easy Booking</p>
-                            </dt>
-                            <dd class="mt-2 ml-16 text-base text-gray-500">
-                                Seamless online booking experience. Reserve your car in just a few clicks.
-                            </dd>
-                        </div>
-                    </dl>
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <h4 class="fw-bold mb-3 text-primary-dark">Secure & Safe</h4>
+                        <p class="text-muted">Comprehensive insurance coverage and 24/7 roadside assistance included.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-bolt feature-icon"></i>
+                        <h4 class="fw-bold mb-3 text-primary-dark">Instant Booking</h4>
+                        <p class="text-muted">Digital-first experience. From selection to ignition in under 5 minutes.</p>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Featured Vehicles Section -->
-        @if(isset($featuredVehicles) && $featuredVehicles->count() > 0)
-        <div id="featured" class="bg-gray-100 py-16">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-extrabold text-gray-900">Available Now</h2>
-                    <p class="mt-4 text-lg text-gray-500">Check out some of our latest additions.</p>
+    <!-- Featured Vehicles -->
+    @if(isset($featuredVehicles) && $featuredVehicles->count() > 0)
+    <section id="featured" class="py-5 bg-white">
+        <div class="container py-5">
+            <div class="d-flex justify-content-between align-items-end mb-5">
+                <div>
+                    <h2 class="fw-bold mb-0 text-primary-dark">Featured Models</h2>
+                    <p class="text-muted mb-0">High-performance vehicles ready for deployment.</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    @foreach($featuredVehicles as $vehicle)
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                        <!-- Placeholder image logic -->
-                        @php
-                            $randomImage = 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
-                             if($vehicle->brand == 'Toyota') $randomImage = 'https://images.unsplash.com/photo-1590362891991-f776e747a588?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
-                             if($vehicle->brand == 'Honda') $randomImage = 'https://images.unsplash.com/photo-1627483262769-04d0a1401487?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
-                             // Add more mock logic or use featured image if available
+                <a href="#" class="text-decoration-none fw-bold text-accent">View All <i class="fas fa-arrow-right ms-1"></i></a>
+            </div>
+            
+            <div class="row g-4">
+                @foreach($featuredVehicles as $vehicle)
+                <div class="col-md-6 col-lg-4">
+                    <div class="card vehicle-card h-100">
+                         @php
+                            $randomImage = 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
+                             if(stripos($vehicle->brand, 'Toyota') !== false) $randomImage = 'https://images.unsplash.com/photo-1592198084033-aade902d1aae?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
+                             if(stripos($vehicle->brand, 'Honda') !== false) $randomImage = 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
+                             if(stripos($vehicle->brand, 'BMW') !== false) $randomImage = 'https://images.unsplash.com/photo-1555215695-3004980adade?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
+                             
                              $image = $vehicle->image ? asset('storage/' . $vehicle->image) : $randomImage;
                         @endphp
-                        <img class="h-48 w-full object-cover" src="{{ $image }}" alt="{{ $vehicle->name }}">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-900">{{ $vehicle->brand }} {{ $vehicle->name }}</h3>
-                            <p class="mt-2 text-gray-600 text-sm">Valid License Plate: {{ $vehicle->plate_number }}</p>
-                            <div class="mt-4 flex justify-between items-center">
-                                <span class="text-2xl font-bold text-indigo-600">${{ $vehicle->daily_rent_price }}<span class="text-sm text-gray-500 font-normal">/day</span></span>
+                        <img src="{{ $image }}" class="card-img-top vehicle-img" alt="{{ $vehicle->name }}">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge badge-brand">{{ $vehicle->brand }}</span>
+                                <small class="text-muted"><i class="fas fa-gas-pump me-1"></i>Petrol</small>
+                            </div>
+                            <h5 class="card-title fw-bold mb-3 text-primary-dark">{{ $vehicle->name }}</h5>
+                            <div class="d-flex justify-content-between align-items-end mt-4">
+                                <div>
+                                    <small class="text-muted d-block text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.5px;">Daily Rate</small>
+                                    <span class="price-tag">${{ number_format($vehicle->daily_rent_price, 0) }}</span>
+                                </div>
                                 @auth
-                                    <a href="{{ url('/dashboard') }}" class="px-4 py-2 border border-indigo-600 text-indigo-600 rounded-md hover:bg-indigo-50 text-sm font-medium">Rent</a>
+                                    <a href="{{ url('/dashboard') }}" class="btn btn-rent">Rent</a>
                                 @else
-                                    <a href="{{ route('login') }}" class="px-4 py-2 border border-indigo-600 text-indigo-600 rounded-md hover:bg-indigo-50 text-sm font-medium">Rent</a>
+                                    <a href="{{ route('login') }}" class="btn btn-rent">Rent</a>
                                 @endauth
                             </div>
                         </div>
                     </div>
-                    @endforeach
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+    @endif
+
+    <!-- CTA Section -->
+    <section class="py-5 bg-white border-top">
+        <div class="container py-4">
+            <div class="rounded-3 p-5 text-center text-white position-relative overflow-hidden" style="background-color: var(--primary-color);">
+                <div class="position-relative z-1">
+                    <h2 class="fw-bold mb-3">Ready to start your journey?</h2>
+                    <p class="lead mb-4 opacity-75">Join thousands of satisfied customers today.</p>
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="btn btn-primary-custom">Go to Dashboard</a>
+                    @else
+                         <a href="{{ route('register') }}" class="btn btn-primary-custom">Create Account</a>
+                    @endauth
                 </div>
             </div>
         </div>
-        @endif
+    </section>
 
-        <!-- Footer -->
-        <footer class="bg-gray-800 text-white py-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <h3 class="text-lg font-bold mb-4">VehicleRent</h3>
-                    <p class="text-gray-400 text-sm">
-                        Trusted by thousands of drivers. We make renting cars easy, affordable, and safe.
-                    </p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h4 class="footer-heading">VehicleRent</h4>
+                    <p class="mb-4">Your trusted partner for reliable, affordable, and luxury vehicle rentals. Located in the heart of the city.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="fs-5"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="fs-5"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="fs-5"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="fs-5"><i class="fab fa-linkedin"></i></a>
+                    </div>
                 </div>
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
-                     <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-white">About Us</a></li>
-                        <li><a href="#" class="hover:text-white">Contact</a></li>
-                         <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+                <div class="col-lg-2 col-6">
+                    <h5 class="text-white mb-3">Company</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#">About Us</a></li>
+                        <li class="mb-2"><a href="#">Careers</a></li>
+                        <li class="mb-2"><a href="#">Blog</a></li>
+                        <li class="mb-2"><a href="#">Press</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Contact</h3>
-                     <ul class="space-y-2 text-sm text-gray-400">
-                        <li>123 Main Street, Cityville</li>
-                        <li>support@vehiclerent.com</li>
-                        <li>+1 (555) 123-4567</li>
+                <div class="col-lg-2 col-6">
+                    <h5 class="text-white mb-3">Support</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#">Help Center</a></li>
+                        <li class="mb-2"><a href="#">Terms of Service</a></li>
+                        <li class="mb-2"><a href="#">Privacy Policy</a></li>
+                        <li class="mb-2"><a href="#">Contact Us</a></li>
                     </ul>
                 </div>
+                <div class="col-lg-4">
+                    <h5 class="text-white mb-3">Subscribe</h5>
+                    <p>Get the latest updates and offers.</p>
+                    <form class="d-flex gap-2">
+                        <input type="email" class="form-control" placeholder="Enter your email">
+                        <button class="btn btn-primary" type="button">Subscribe</button>
+                    </form>
+                </div>
             </div>
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
-                &copy; {{ date('Y') }} VehicleRent. All rights reserved.
+            <hr class="my-5 border-secondary">
+            <div class="text-center">
+                <p class="mb-0">&copy; {{ date('Y') }} VehicleRent. All rights reserved.</p>
             </div>
-        </footer>
+        </div>
+    </footer>
 
-    </body>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
