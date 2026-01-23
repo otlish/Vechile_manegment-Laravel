@@ -1,68 +1,85 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('My Dashboard') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Welcome Section -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h3 class="text-lg font-bold">Welcome, {{ Auth::user()->name }}!</h3>
-                    <p class="mt-2 text-gray-600 dark:text-gray-400">Manage your vehicle rentals here.</p>
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <div class="card bg-white border-0 shadow-sm">
+                <div class="card-body p-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="fw-bold text-primary-dark mb-1">My Dashboard</h2>
+                        <p class="text-muted mb-0">Welcome back, {{ Auth::user()->name }}!</p>
+                    </div>
+                    <div>
+                        <a href="{{ url('/') }}#featured" class="btn btn-primary-custom">
+                            <i class="fas fa-plus me-2"></i>New Booking
+                        </a>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- Active Rentals Section -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h3 class="text-lg font-bold mb-4">Your Active Rentals</h3>
-                    
+    <!-- Active Rentals Section -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0 fw-bold">Active Rentals</h5>
+                </div>
+                <div class="card-body p-0">
                     @if($activeRentals->isEmpty())
-                        <div class="text-center py-8">
-                            <p class="text-gray-500 mb-4">You have no active rentals at the moment.</p>
-                            <a href="#" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
-                                Browse Available Vehicles
+                        <div class="text-center py-5">
+                            <div class="mb-3">
+                                <i class="fas fa-car fa-3x text-muted opacity-50"></i>
+                            </div>
+                            <h5 class="text-muted fw-bold">No active rentals</h5>
+                            <p class="text-muted small mb-4">You don't have any ongoing rentals at the moment.</p>
+                            <a href="{{ url('/') }}#featured" class="btn btn-outline-primary rounded-pill">
+                                Browse Vehicles
                             </a>
                         </div>
                     @else
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full leading-normal">
-                                <thead>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="bg-light">
                                     <tr>
-                                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Vehicle</th>
-                                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Dates</th>
-                                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Total Price</th>
-                                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                                        <th class="ps-4">Vehicle</th>
+                                        <th>Dates</th>
+                                        <th>Total Price</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($activeRentals as $rental)
                                     <tr>
-                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <div class="flex items-center">
-                                                <div class="ml-3">
-                                                    <p class="text-gray-900 whitespace-no-wrap font-bold">
-                                                        {{ $rental->vehicle->name ?? 'Unknown Vehicle' }}
-                                                    </p>
-                                                    <p class="text-gray-600 text-xs">{{ $rental->vehicle->brand ?? '' }}</p>
+                                        <td class="ps-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-light rounded p-2 me-3 text-center" style="width: 50px; height: 50px;">
+                                                    <i class="fas fa-car text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0 fw-bold">{{ $rental->vehicle->name ?? 'Unknown' }}</h6>
+                                                    <small class="text-muted">{{ $rental->vehicle->brand ?? '' }}</small>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <p class="text-gray-900 whitespace-no-wrap">{{ $rental->start_date }}</p>
-                                            <p class="text-gray-600 text-xs">to {{ $rental->end_date }}</p>
+                                        <td>
+                                            <div class="small">
+                                                <div class="fw-bold text-dark">{{ \Carbon\Carbon::parse($rental->start_date)->format('M d, Y') }}</div>
+                                                <div class="text-muted">to {{ \Carbon\Carbon::parse($rental->end_date)->format('M d, Y') }}</div>
+                                            </div>
                                         </td>
-                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <span class="text-gray-900 font-bold">${{ $rental->total_price }}</span>
+                                        <td>
+                                            <span class="fw-bold text-primary">${{ number_format($rental->total_price, 2) }}</span>
                                         </td>
-                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                                <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                                <span class="relative">{{ ucfirst($rental->status) }}</span>
+                                        <td>
+                                            <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill">
+                                                Active
                                             </span>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-light text-muted" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     @endforeach
