@@ -1,47 +1,50 @@
 <x-guest-layout>
+    <div class="mb-4 text-center">
+        <h4 class="fw-bold text-dark">Welcome Back</h4>
+        <p class="text-muted text-sm">Sign in to manage your rentals</p>
+    </div>
+
     <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <x-auth-session-status class="mb-3 alert alert-success" :status="session('status')" />
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
         <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="mb-3">
+            <label for="email" class="form-label fw-bold small text-uppercase text-muted">Email Address</label>
+            <input id="email" class="form-control" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" placeholder="name@example.com">
+            <x-input-error :messages="$errors->get('email')" class="text-danger small mt-1" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="mb-3">
+            <label for="password" class="form-label fw-bold small text-uppercase text-muted">Password</label>
+            <input id="password" class="form-control" type="password" name="password" required autocomplete="current-password" placeholder="••••••••">
+            <x-input-error :messages="$errors->get('password')" class="text-danger small mt-1" />
         </div>
 
         <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="form-check">
+                <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
+                <label for="remember_me" class="form-check-label small text-muted">Remember me</label>
+            </div>
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
+                <a class="text-link small fw-bold" href="{{ route('password.request') }}">
+                    Forgot Password?
                 </a>
             @endif
+        </div>
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+        <button type="submit" class="btn btn-primary-custom">
+            Log in
+        </button>
+
+        <div class="text-center mt-4">
+            <p class="text-muted small mb-0">Don't have an account? 
+                <a href="{{ route('register') }}" class="text-link fw-bold">Register</a>
+            </p>
         </div>
     </form>
 </x-guest-layout>
