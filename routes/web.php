@@ -18,12 +18,17 @@ Route::get('/dashboard', [CustomerController::class, 'index'])
     ->name('dashboard');
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminVehicleController;
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/customers', [AdminController::class, 'customers'])->name('customers');
     Route::get('/rentals', [AdminController::class, 'rentals'])->name('rentals');
+    Route::get('/returns', [AdminController::class, 'returns'])->name('returns');
     Route::post('/bookings/{booking}/return', [AdminController::class, 'returnVehicle'])->name('bookings.return');
+    
+    // Vehicle Management
+    Route::resource('vehicles', AdminVehicleController::class);
 });
 
 Route::middleware(['auth', 'role:customer'])->prefix('customer')->name('customer.')->group(function () {

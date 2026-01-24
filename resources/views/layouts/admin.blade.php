@@ -134,7 +134,7 @@
                 <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i class="fas fa-tachometer-alt"></i> Dashboard
                 </a>
-                <a href="#" class="nav-link">
+                <a href="{{ route('admin.vehicles.index') }}" class="nav-link {{ request()->routeIs('admin.vehicles.*') ? 'active' : '' }}">
                     <i class="fas fa-car"></i> Vehicles
                 </a>
                 <a href="{{ route('admin.customers') }}" class="nav-link {{ request()->routeIs('admin.customers') ? 'active' : '' }}">
@@ -143,7 +143,7 @@
                 <a href="{{ route('admin.rentals') }}" class="nav-link {{ request()->routeIs('admin.rentals') ? 'active' : '' }}">
                     <i class="fas fa-calendar-check"></i> Rentals
                 </a>
-                 <a href="#" class="nav-link">
+                 <a href="{{ route('admin.returns') }}" class="nav-link {{ request()->routeIs('admin.returns') ? 'active' : '' }}">
                     <i class="fas fa-undo"></i> Returns
                 </a>
             </div>

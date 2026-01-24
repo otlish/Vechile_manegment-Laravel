@@ -34,6 +34,15 @@ class AdminController extends Controller
         return view('admin.rentals', compact('rentals'));
     }
 
+    public function returns()
+    {
+        $returns = Booking::with(['user', 'vehicle'])
+                          ->where('status', 'completed')
+                          ->latest()
+                          ->get();
+        return view('admin.returns', compact('returns'));
+    }
+
     public function returnVehicle($bookingId)
     {
         $booking = Booking::findOrFail($bookingId);
