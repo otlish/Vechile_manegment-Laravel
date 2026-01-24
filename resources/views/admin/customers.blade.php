@@ -2,38 +2,62 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Customer Management</h1>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-4 border-bottom">
+        <div>
+            <h1 class="h2 fw-bold text-primary-dark">Customer Management</h1>
+            <p class="text-muted small">Manage registered users and their details</p>
+        </div>
+        <div class="btn-toolbar mb-2 mb-md-0">
+             <button type="button" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-download me-1"></i> Export
+            </button>
+        </div>
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead class="table-dark">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Joined Date</th>
-                            <th>Actions</th>
+                            <th class="ps-4 text-uppercase text-muted small fw-bold">ID</th>
+                            <th class="text-uppercase text-muted small fw-bold">Name</th>
+                            <th class="text-uppercase text-muted small fw-bold">Email</th>
+                            <th class="text-uppercase text-muted small fw-bold">Joined Date</th>
+                            <th class="text-uppercase text-muted small fw-bold text-end pe-4">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($customers as $customer)
                         <tr>
-                            <td>{{ $customer->id }}</td>
-                            <td>{{ $customer->name }}</td>
-                            <td>{{ $customer->email }}</td>
-                            <td>{{ $customer->created_at->format('M d, Y') }}</td>
+                            <td class="ps-4 fw-bold text-secondary">#{{ $customer->id }}</td>
                             <td>
-                                <button class="btn btn-sm btn-primary">Edit</button>
-                                <button class="btn btn-sm btn-danger">Delete</button>
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 35px; height: 35px; font-size: 0.8rem;">
+                                        {{ substr($customer->name, 0, 1) }}
+                                    </div>
+                                    <span class="fw-bold text-dark">{{ $customer->name }}</span>
+                                </div>
+                            </td>
+                            <td class="text-muted">{{ $customer->email }}</td>
+                            <td class="text-muted">{{ $customer->created_at->format('M d, Y') }}</td>
+                            <td class="text-end pe-4">
+                                <button class="btn btn-sm btn-outline-primary me-1" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="text-center">No customers found.</td>
+                            <td colspan="5" class="text-center py-5">
+                                <div class="text-muted">
+                                    <i class="fas fa-users fa-3x opacity-25 mb-3"></i>
+                                    <p>No customers found.</p>
+                                </div>
+                            </td>
                         </tr>
                         @endforelse
                     </tbody>

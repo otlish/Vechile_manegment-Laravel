@@ -128,7 +128,7 @@
         <!-- Sidebar -->
         <nav class="sidebar">
             <div class="py-4 px-4">
-                <small class="text-uppercase text-muted fw-bold" style="font-size: 0.7rem; letter-spacing: 1px;">Main Menu</small>
+                <small class="text-uppercase fw-bold" style="color: rgba(255,255,255,0.5); font-size: 0.7rem; letter-spacing: 1px;">Main Menu</small>
             </div>
             <div class="nav flex-column">
                 <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
