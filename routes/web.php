@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\VehicleController;
 
 use App\Models\Vehicle;
 
@@ -10,6 +11,15 @@ Route::get('/', function () {
     $featuredVehicles = Vehicle::where('status', 'available')->latest()->take(3)->get();
     return view('welcome', compact('featuredVehicles'));
 });
+// vehicle  crud routes
+Route::get('/vehicles', [VehicleController::class, 'index']);
+
+// vehicle create route
+Route::get('/vehicles/create', [VehicleController::class,
+ 'create']);
+
+// vehicle store route
+Route::post('/vehicles', [VehicleController::class, 'store']);
 
 use App\Http\Controllers\CustomerController;
 
