@@ -1,0 +1,1 @@
+<h1>This is a index page for vehicles</h1>
