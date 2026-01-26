@@ -1,0 +1,18 @@
+[33m307a02d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mpurushotam[m[33m)[m Update routes for VehicleController
+[33maacf81d[m Add vehicle index and create views
+[33m84a65f1[m Add VehicleController
+[33m8ef70bd[m[33m ([m[1;31morigin/savin[m[33m, [m[1;31morigin/purushotam[m[33m, [m[1;32msavin[m[33m)[m Admin Vehicles CRUD and Returns Page
+[33ma9dedd9[m features in rentals
+[33me60c9b7[m admin dashboard fixes amd updates
+[33m6fd1ae8[m dashboard fixes for user
+[33m51a2a80[m login and register page fixes
+[33m66728ea[m Bug fixes in welcome page
+[33m413d46f[m Welcome Page
+[33mc376229[m Add and Pass Feature Tests for Roles, Returns, and History
+[33m97c0a4f[m Implement Rental History (Backend & Frontend)
+[33mca09241[m Implement Return Vehicle Frontend
+[33m409bbd8[m Implement Return Vehicle Backend Logic
+[33m1490a00[m Implement Customer Management (Admin Side)
+[33m550c93c[m Implement Admin Dashboard with Bootstrap 5 and Stats Logic
+[33m8b47491[m Setup Database Schema, Models, Role Middleware, and Seeders
+[33m465c95f[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Initialize Laravel project with Breeze authentication
