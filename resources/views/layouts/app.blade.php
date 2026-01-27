@@ -155,7 +155,7 @@
         <!-- Page Content -->
         <main class="py-5">
             <div class="container">
-                {{ $slot }}
+                @yield('content')
             </div>
         </main>
 
