@@ -12,6 +12,8 @@ class Vehicle extends Model
     protected $fillable = [
         'name',
         'brand',
+        'model',
+        'year',
         'plate_number',
         'daily_rent_price',
         'status',
