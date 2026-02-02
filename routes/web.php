@@ -33,6 +33,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 Route::middleware(['auth', 'role:customer'])->prefix('customer')->name('customer.')->group(function () {
     Route::get('/history', [CustomerController::class, 'history'])->name('history');
+    Route::get('/active-rentals', [CustomerController::class, 'activeRentals'])->name('active-rentals');
+    Route::get('/browse', [CustomerController::class, 'browse'])->name('browse');
 });
 
 Route::middleware('auth')->group(function () {

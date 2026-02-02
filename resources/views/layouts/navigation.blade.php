@@ -15,7 +15,10 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    @if(Auth::user()->role === 'customer')
+                    @if(Auth::user()->role !== 'admin')
+                    <x-nav-link :href="route('customer.active-rentals')" :active="request()->routeIs('customer.active-rentals')">
+                        {{ __('Active Rentals') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('customer.history')" :active="request()->routeIs('customer.history')">
                         {{ __('Rental History') }}
                     </x-nav-link>
@@ -75,6 +78,15 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            
+            @if(Auth::user()->role !== 'admin')
+            <x-responsive-nav-link :href="route('customer.active-rentals')" :active="request()->routeIs('customer.active-rentals')">
+                {{ __('Active Rentals') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('customer.history')" :active="request()->routeIs('customer.history')">
+                {{ __('Rental History') }}
+            </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

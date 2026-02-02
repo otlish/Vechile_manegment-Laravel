@@ -290,56 +290,7 @@
         </div>
     </section>
 
-    <!-- Featured Vehicles -->
-    @if(isset($featuredVehicles) && $featuredVehicles->count() > 0)
-    <section id="featured" class="py-5 bg-white">
-        <div class="container py-5">
-            <div class="d-flex justify-content-between align-items-end mb-5">
-                <div>
-                    <h2 class="fw-bold mb-0 text-primary-dark">Featured Models</h2>
-                    <p class="text-muted mb-0">High-performance vehicles ready for deployment.</p>
-                </div>
-                <a href="#" class="text-decoration-none fw-bold text-accent">View All <i class="fas fa-arrow-right ms-1"></i></a>
-            </div>
-            
-            <div class="row g-4">
-                @foreach($featuredVehicles as $vehicle)
-                <div class="col-md-6 col-lg-4">
-                    <div class="card vehicle-card h-100">
-                         @php
-                            $randomImage = 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
-                             if(stripos($vehicle->brand, 'Toyota') !== false) $randomImage = 'https://images.unsplash.com/photo-1592198084033-aade902d1aae?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
-                             if(stripos($vehicle->brand, 'Honda') !== false) $randomImage = 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
-                             if(stripos($vehicle->brand, 'BMW') !== false) $randomImage = 'https://images.unsplash.com/photo-1555215695-3004980adade?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
-                             
-                             $image = $vehicle->image ? asset('storage/' . $vehicle->image) : $randomImage;
-                        @endphp
-                        <img src="{{ $image }}" class="card-img-top vehicle-img" alt="{{ $vehicle->name }}">
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="badge badge-brand">{{ $vehicle->brand }}</span>
-                                <small class="text-muted"><i class="fas fa-gas-pump me-1"></i>Petrol</small>
-                            </div>
-                            <h5 class="card-title fw-bold mb-3 text-primary-dark">{{ $vehicle->name }}</h5>
-                            <div class="d-flex justify-content-between align-items-end mt-4">
-                                <div>
-                                    <small class="text-muted d-block text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.5px;">Daily Rate</small>
-                                    <span class="price-tag">${{ number_format($vehicle->daily_rent_price, 0) }}</span>
-                                </div>
-                                @auth
-                                    <a href="{{ url('/dashboard') }}" class="btn btn-rent">Rent</a>
-                                @else
-                                    <a href="{{ route('login') }}" class="btn btn-rent">Rent</a>
-                                @endauth
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-    @endif
+
 
     <!-- CTA Section -->
     <section class="py-5 bg-white border-top">
