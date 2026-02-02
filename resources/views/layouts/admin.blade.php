@@ -100,8 +100,8 @@
     <!-- Top Navbar -->
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container-fluid px-4">
-            <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ asset('images/logo_v2.png') }}" alt="Vehicle Rent" height="35" class="d-inline-block align-text-top me-2">VehicleRent <span class="badge bg-light text-dark ms-2 border" style="font-size: 0.7rem; vertical-align: middle;">ADMIN</span>
+            <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
+                <img src="{{ asset('images/logo_v2.png') }}" alt="Vehicle Rent" height="50" class="me-2">VehicleRent <span class="badge bg-light text-dark ms-2 border" style="font-size: 0.7rem;">ADMIN</span>
             </a>
             <div class="d-flex align-items-center">
                  <div class="dropdown">
@@ -151,6 +151,16 @@
 
         <!-- Main Content -->
         <main class="content">
+            @if ($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
             @yield('content')
         </main>
     </div>

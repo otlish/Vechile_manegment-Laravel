@@ -44,7 +44,7 @@
                                 <input type="text" name="plate_number" class="form-control" required placeholder="e.g. ABC 1234">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Daily Rent Price ($)</label>
+                                <label class="form-label fw-bold small text-muted text-uppercase">Daily Rent Price (Rs.)</label>
                                 <input type="number" name="daily_rent_price" class="form-control" required min="0" step="0.01" placeholder="0.00">
                             </div>
 

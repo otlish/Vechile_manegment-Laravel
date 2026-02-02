@@ -207,8 +207,8 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
-                <i class="fas fa-car-side me-2 text-accent"></i>VehicleRent
+            <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
+                <img src="{{ asset('images/logo_v2.png') }}" height="50" class="me-2" alt="Logo">VehicleRent
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -267,7 +267,7 @@
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="feature-card text-center">
-                        <i class="fas fa-car feature-icon"></i>
+                        <img src="{{ asset('images/logo_v2.png') }}" class="mb-3" style="height: 60px;" alt="Feature Icon">
                         <h4 class="fw-bold mb-3 text-primary-dark">Premium Selection</h4>
                         <p class="text-muted">Curated collection of top-tier vehicles maintained to the highest standards.</p>
                     </div>

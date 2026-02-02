@@ -12,7 +12,7 @@
                     @if($activeRentals->isEmpty())
                         <div class="text-center py-5">
                             <div class="mb-3">
-                                <i class="fas fa-car fa-3x text-muted opacity-50"></i>
+                                <img src="{{ asset('images/logo_v2.png') }}" style="height: 80px; opacity: 0.5;" class="mb-3" alt="No Rentals">
                             </div>
                             <h5 class="text-muted fw-bold">No active rentals</h5>
                             <p class="text-muted small mb-4">You don't have any ongoing rentals at the moment.</p>
@@ -38,7 +38,7 @@
                                         <td class="ps-4">
                                             <div class="d-flex align-items-center">
                                                 <div class="bg-light rounded p-2 me-3 text-center" style="width: 50px; height: 50px;">
-                                                    <i class="fas fa-car text-primary"></i>
+                                                    <img src="{{ asset('images/logo_v2.png') }}" style="width: 100%; height: 100%; object-fit: contain;" alt="Car">
                                                 </div>
                                                 <div>
                                                     <h6 class="mb-0 fw-bold">{{ $rental->vehicle->name ?? 'Unknown' }}</h6>
