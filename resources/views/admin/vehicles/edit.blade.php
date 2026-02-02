@@ -33,11 +33,11 @@
 
                             <div class="col-md-6">
                                 <label class="form-label fw-bold small text-muted text-uppercase">Model</label>
-                                <input type="text" name="model" class="form-control" required value="{{ $vehicle->model }}">
+                                <input type="text" name="model" class="form-control" required value="{{ old('model', $vehicle->model) }}">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold small text-muted text-uppercase">Year</label>
-                                <input type="number" name="year" class="form-control" required min="1900" max="2100" value="{{ $vehicle->year }}">
+                                <input type="number" name="year" class="form-control" required min="1900" max="2100" value="{{ old('year', $vehicle->year) }}">
                             </div>
 
                             <div class="col-md-6">
@@ -45,7 +45,7 @@
                                 <input type="text" name="plate_number" class="form-control" required value="{{ $vehicle->plate_number }}">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Daily Rent Price ($)</label>
+                                <label class="form-label fw-bold small text-muted text-uppercase">Daily Rent Price (Rs.)</label>
                                 <input type="number" name="daily_rent_price" class="form-control" required min="0" step="0.01" value="{{ $vehicle->daily_rent_price }}">
                             </div>
 

@@ -56,7 +56,7 @@
                                 <span class="badge bg-light text-dark border font-monospace">{{ $vehicle->plate_number }}</span>
                             </td>
                             <td>
-                                <span class="fw-bold text-primary">${{ number_format($vehicle->daily_rent_price, 0) }}</span>
+                                <span class="fw-bold text-primary">Rs. {{ number_format($vehicle->daily_rent_price, 0) }}</span>
                             </td>
                             <td>
                                 @if($vehicle->status === 'available')

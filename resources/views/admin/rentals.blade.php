@@ -58,7 +58,7 @@
                                 </div>
                             </td>
                             <td>
-                                <span class="fw-bold text-primary">${{ number_format($rental->total_price, 2) }}</span>
+                                <span class="fw-bold text-primary">Rs. {{ number_format($rental->total_price, 2) }}</span>
                             </td>
                             <td>
                                 <span class="badge bg-warning bg-opacity-10 text-warning px-3 py-1 rounded-pill border border-warning">

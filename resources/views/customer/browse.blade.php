@@ -38,7 +38,7 @@
                     <div class="d-flex justify-content-between align-items-center mt-4">
                         <div>
                             <small class="text-muted d-block text-uppercase" style="font-size: 0.75rem;">Daily Rate</small>
-                            <span class="fw-bold text-primary fs-5">${{ number_format($vehicle->daily_rent_price, 0) }}</span>
+                            <span class="fw-bold text-primary fs-5">Rs. {{ number_format($vehicle->daily_rent_price, 0) }}</span>
                         </div>
                         <a href="#" class="btn btn-primary-custom" onclick="alert('The Booking System is being built by Purushotam. Ideally this would go to /book/{{ $vehicle->id }}')">
                             Book Now
