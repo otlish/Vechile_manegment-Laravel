@@ -45,7 +45,7 @@
                                             <p class="text-gray-900 whitespace-no-wrap">{{ $rental->end_date }}</p>
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <span class="text-gray-900 font-bold">Rs. {{ $rental->total_price }}</span>
+                                            <span class="font-bold" style="color: #006400;">Rs. {{ $rental->total_price }}</span>
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                             <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">

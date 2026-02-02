@@ -30,12 +30,9 @@
                     <tbody>
                         @forelse($customers as $customer)
                         <tr>
-                            <td class="ps-4 fw-bold text-secondary">#{{ $customer->id }}</td>
+                            <td class="ps-4 fw-bold text-secondary">#{{ $loop->iteration }}</td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 35px; height: 35px; font-size: 0.8rem;">
-                                        {{ substr($customer->name, 0, 1) }}
-                                    </div>
                                     <span class="fw-bold text-dark">{{ $customer->name }}</span>
                                 </div>
                             </td>

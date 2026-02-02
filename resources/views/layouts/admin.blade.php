@@ -101,7 +101,7 @@
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container-fluid px-4">
             <a class="navbar-brand" href="{{ url('/') }}">
-                <i class="fas fa-car-side me-2 text-accent"></i>VehicleRent <span class="badge bg-light text-dark ms-2 border" style="font-size: 0.7rem; vertical-align: middle;">ADMIN</span>
+                <img src="{{ asset('images/logo_v2.png') }}" alt="Vehicle Rent" height="35" class="d-inline-block align-text-top me-2">VehicleRent <span class="badge bg-light text-dark ms-2 border" style="font-size: 0.7rem; vertical-align: middle;">ADMIN</span>
             </a>
             <div class="d-flex align-items-center">
                  <div class="dropdown">
