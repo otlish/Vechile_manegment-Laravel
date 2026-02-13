@@ -56,9 +56,19 @@
                                             <span class="fw-bold text-primary">${{ number_format($rental->total_price, 2) }}</span>
                                         </td>
                                         <td>
-                                            <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill">
-                                                Active
-                                            </span>
+                                            @if($rental->status == 'active')
+                                                <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill">
+                                                    Active
+                                                </span>
+                                            @elseif($rental->status == 'pending')
+                                                <span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2 rounded-pill">
+                                                    Pending
+                                                </span>
+                                            @else
+                                                <span class="badge bg-secondary bg-opacity-10 text-secondary px-3 py-2 rounded-pill">
+                                                    {{ ucfirst($rental->status) }}
+                                                </span>
+                                            @endif
                                         </td>
                                         <td>
                                             <a href="#" class="btn btn-sm btn-light text-muted" title="View Details">
@@ -113,7 +123,7 @@
                                 <small class="text-muted d-block text-uppercase" style="font-size: 0.75rem;">Daily Rate</small>
                                 <span class="fw-bold fs-5" style="color: #006400;">Rs. {{ number_format($vehicle->daily_rent_price, 0) }}</span>
                             </div>
-                            <a href="#" class="btn btn-primary-custom" onclick="alert('The Booking System is being built by Purushotam. Ideally this would go to /book/{{ $vehicle->id }}')">
+                            <a href="{{ route('bookings.create', $vehicle->id) }}" class="btn btn-primary-custom">
                                 Book Now
                             </a>
                         </div>

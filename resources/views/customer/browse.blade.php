@@ -40,7 +40,7 @@
                             <small class="text-muted d-block text-uppercase" style="font-size: 0.75rem;">Daily Rate</small>
                             <span class="fw-bold fs-5" style="color: #006400;">Rs. {{ number_format($vehicle->daily_rent_price, 0) }}</span>
                         </div>
-                        <a href="#" class="btn btn-primary-custom" onclick="alert('The Booking System is being built by Purushotam. Ideally this would go to /book/{{ $vehicle->id }}')">
+                        <a href="{{ route('bookings.create', $vehicle->id) }}" class="btn btn-primary-custom">
                             Book Now
                         </a>
                     </div>
