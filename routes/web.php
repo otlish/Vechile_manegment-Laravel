@@ -25,7 +25,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/customers', [AdminController::class, 'customers'])->name('customers');
     Route::get('/rentals', [AdminController::class, 'rentals'])->name('rentals');
     Route::get('/returns', [AdminController::class, 'returns'])->name('returns');
+    Route::post('/bookings/{booking}/approve', [AdminController::class, 'approve'])->name('bookings.approve');
+    Route::post('/bookings/{booking}/reject', [AdminController::class, 'reject'])->name('bookings.reject');
     Route::post('/bookings/{booking}/return', [AdminController::class, 'returnVehicle'])->name('bookings.return');
+
     
     // Vehicle Management
     Route::resource('vehicles', AdminVehicleController::class);
@@ -41,6 +44,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Booking Routes
+    Route::get('/book/{vehicle}', [App\Http\Controllers\BookingController::class, 'create'])->name('bookings.create');
+    Route::post('/book/{vehicle}', [App\Http\Controllers\BookingController::class, 'store'])->name('bookings.store');
 });
 
 require __DIR__.'/auth.php';
