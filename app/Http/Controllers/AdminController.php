@@ -28,10 +28,29 @@ class AdminController extends Controller
 
     public function rentals()
     {
-        $rentals = Booking::with(['user', 'vehicle'])
+        $activeRentals = Booking::with(['user', 'vehicle'])
                           ->where('status', 'active')
                           ->get();
-        return view('admin.rentals', compact('rentals'));
+        
+        $pendingBookings = Booking::with(['user', 'vehicle'])
+                          ->where('status', 'pending')
+                          ->get();
+
+        return view('admin.rentals', compact('activeRentals', 'pendingBookings'));
+    }
+
+    public function approve(Booking $booking)
+    {
+        $booking->update(['status' => 'active']);
+        $booking->vehicle->update(['status' => 'rented']);
+        
+        return redirect()->back()->with('success', 'Booking approved and vehicle marked as rented.');
+    }
+
+    public function reject(Booking $booking)
+    {
+        $booking->update(['status' => 'cancelled']);
+        return redirect()->back()->with('success', 'Booking rejected.');
     }
 
     public function returns()
