@@ -16,7 +16,8 @@ class CustomerController extends Controller
 
         $activeRentals = Booking::with('vehicle')
             ->where('user_id', Auth::id())
-            ->where('status', 'active')
+            ->whereIn('status', ['active', 'pending'])
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $availableVehicles = \App\Models\Vehicle::where('status', 'available')->latest()->take(6)->get();
