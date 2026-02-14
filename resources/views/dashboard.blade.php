@@ -37,8 +37,12 @@
                                     <tr>
                                         <td class="ps-4">
                                             <div class="d-flex align-items-center">
-                                                <div class="bg-light rounded p-2 me-3 text-center" style="width: 50px; height: 50px;">
-                                                    <img src="{{ asset('images/logo_v2.png') }}" style="width: 100%; height: 100%; object-fit: contain;" alt="Car">
+                                                <div class="bg-light rounded me-3 text-center overflow-hidden" style="width: 50px; height: 50px;">
+                                                    @if($rental->vehicle->image)
+                                                        <img src="{{ asset('storage/' . $rental->vehicle->image) }}" alt="{{ $rental->vehicle->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                                    @else
+                                                        <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=100&q=80" alt="Car" style="width: 100%; height: 100%; object-fit: cover;">
+                                                    @endif
                                                 </div>
                                                 <div>
                                                     <h6 class="mb-0 fw-bold">{{ $rental->vehicle->name ?? 'Unknown' }}</h6>
