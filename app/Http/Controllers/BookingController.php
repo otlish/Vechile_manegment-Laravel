@@ -23,6 +23,8 @@ class BookingController extends Controller
      */
     public function store(Request $request, Vehicle $vehicle)
     {
+        \Illuminate\Support\Facades\Log::info('Booking initiated for vehicle: ' . $vehicle->id);
+
         $request->validate([
             'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after:start_date',
@@ -36,10 +38,8 @@ class BookingController extends Controller
         $endDate = Carbon::parse($request->end_date);
 
         // Check for overlapping bookings
-        // We want to avoid any booking that starts before our end date AND ends after our start date
-        // (A < end) and (B > start)
         $overlap = Booking::where('vehicle_id', $vehicle->id)
-            ->whereIn('status', ['active', 'pending']) // Check against active and pending bookings
+            ->whereIn('status', ['active', 'pending'])
             ->where(function ($query) use ($startDate, $endDate) {
                 $query->where('start_date', '<', $endDate)
                       ->where('end_date', '>', $startDate);
@@ -47,32 +47,51 @@ class BookingController extends Controller
             ->exists();
 
         if ($overlap) {
+            \Illuminate\Support\Facades\Log::info('Booking overlap detected.');
             return back()->withErrors(['start_date' => 'This vehicle is already booked for the selected dates.'])->withInput();
         }
 
         // Calculate total price
-        $days = $startDate->diffInDays($endDate) + 1; // Inclusive of start day? Usually rentals are per 24h or calendar day. Let's assume calendar days for simplicity.
-        // If start 10th, end 11th. diff is 1. If daily price is for "days", then 10th to 11th is 1 day or 2? 
-        // Hotel style: nights. Car rental: usually 24h blocks or days. 
-        // Let's assume standard "days" where specific pickup/dropoff times aren't managed yet.
-        // Let's stick to simple diff for now, or diff + 1 if we charge per calendar day.
-        // A common simple fallback is diffInDays. 
-        // If I rent Jan 1 to Jan 2, that's 1 day.
-        $totalPrice = $difference = $startDate->diffInDays($endDate) * $vehicle->daily_rent_price;
+        $days = $startDate->diffInDays($endDate) + 1;
+        $totalPrice = $startDate->diffInDays($endDate) * $vehicle->daily_rent_price;
         
-        // Handle same-day return edge case (optional, but 'after:start_date' validation prevents it unless we change to after_or_equal)
-        // If we allow 1 day rental (morning to evening), logic might need adjustment.
-        // The validation says 'after:start_date', so strictly >. Min 1 day.
+        \Illuminate\Support\Facades\Log::info('Creating booking record...');
 
-        Booking::create([
+        // Create Booking with pending payment
+        $booking = Booking::create([
             'user_id' => Auth::id(),
             'vehicle_id' => $vehicle->id,
             'start_date' => $startDate->toDateString(),
             'end_date' => $endDate->toDateString(),
             'total_price' => $totalPrice,
             'status' => 'pending',
+            'payment_status' => 'pending',
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Booking request submitted successfully! waiting for approval.');
+        \Illuminate\Support\Facades\Log::info('Booking created: ' . $booking->id . '. initiating eSewa...');
+
+        // eSewa Configuration
+        $amount = $totalPrice;
+        $transaction_uuid = $booking->id . '-' . time(); // Unique ID
+        $product_code = env('ESEWA_MERCHANT_ID', 'EPAYTEST');
+        $secret_key = env('ESEWA_SECRET_KEY', '8gBm/:&EnhH.1/q');
+        
+        // Generate Signature
+        // Message format: "total_amount={amount},transaction_uuid={uuid},product_code={code}"
+        $message = "total_amount=$amount,transaction_uuid=$transaction_uuid,product_code=$product_code";
+        $signature = base64_encode(hash_hmac('sha256', $message, $secret_key, true));
+
+        return view('esewa_payment', [
+            'url' => env('ESEWA_API_URL', 'https://rc-epay.esewa.com.np/api/epay/main/v2/form'),
+            'amount' => $amount,
+            'total_amount' => $amount,
+            'transaction_uuid' => $transaction_uuid,
+            'product_code' => $product_code,
+            'success_url' => route('esewa.success'),
+            'failure_url' => route('esewa.failure'),
+            'signature' => $signature,
+        ]);
     }
 }
+
+

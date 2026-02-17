@@ -57,7 +57,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="fw-bold text-primary">${{ number_format($rental->total_price, 2) }}</span>
+                                            <span class="fw-bold" style="color: #006400;">Rs. {{ number_format($rental->total_price, 2) }}</span>
                                         </td>
                                         <td>
                                             @if($rental->status == 'active')

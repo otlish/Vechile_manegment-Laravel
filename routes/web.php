@@ -48,6 +48,10 @@ Route::middleware('auth')->group(function () {
     // Booking Routes
     Route::get('/book/{vehicle}', [App\Http\Controllers\BookingController::class, 'create'])->name('bookings.create');
     Route::post('/book/{vehicle}', [App\Http\Controllers\BookingController::class, 'store'])->name('bookings.store');
+    
+    // eSewa Payment Routes
+    Route::get('/esewa/success', [App\Http\Controllers\EsewaController::class, 'success'])->name('esewa.success');
+    Route::get('/esewa/failure', [App\Http\Controllers\EsewaController::class, 'failure'])->name('esewa.failure');
 });
 
 require __DIR__.'/auth.php';
