@@ -243,7 +243,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-9">
                     <h1 class="hero-title">Elevate Your Journey</h1>
-                    <p class="lead mb-5 opacity-90 fs-4">Premium fleet. Transparent prices. Unforgettable experiences.</p>
+                    <p class="lead mb-5 fs-4" style="color: rgba(255, 255, 255, 0.75);">Premium fleet. Transparent prices. Unforgettable experiences.</p>
                     <div class="d-flex justify-content-center gap-3">
                         @auth
                              <a href="{{ url('/dashboard') }}" class="btn btn-primary-custom">Book Your Ride</a>

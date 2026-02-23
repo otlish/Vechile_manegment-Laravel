@@ -62,7 +62,7 @@
                                 </div>
                             </td>
                             <td>
-                                <span class="fw-bold text-primary">Rs. {{ number_format($booking->total_price, 2) }}</span>
+                                <span class="fw-bold" style="color: #006400;">Rs. {{ number_format($booking->total_price, 2) }}</span>
                             </td>
                             <td class="text-end pe-4">
                                 <div class="d-flex justify-content-end gap-2">
@@ -130,7 +130,7 @@
                                 </div>
                             </td>
                             <td>
-                                <span class="fw-bold text-primary">Rs. {{ number_format($rental->total_price, 2) }}</span>
+                                <span class="fw-bold" style="color: #006400;">Rs. {{ number_format($rental->total_price, 2) }}</span>
                             </td>
                             <td>
                                 <span class="badge bg-success bg-opacity-10 text-success px-3 py-1 rounded-pill border border-success">

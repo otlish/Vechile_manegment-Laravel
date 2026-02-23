@@ -71,7 +71,7 @@
                                             <i class="fas fa-info-circle text-info me-3 fs-4"></i>
                                             <div>
                                                 <small class="text-muted d-block">Booking Policy</small>
-                                                <span class="small">Your booking will be pending approval. Payment is collected upon pick-up.</span>
+                                                <span class="small">After confirming your booking, you will be redirected to eSewa to complete your payment.</span>
                                             </div>
                                         </div>
                                     </div>
