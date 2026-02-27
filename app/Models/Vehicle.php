@@ -24,4 +24,19 @@ class Vehicle extends Model
     {
         return $this->hasMany(Booking::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function averageRating()
+    {
+        return $this->reviews()->avg('rating') ?? 0;
+    }
+
+    public function reviewCount()
+    {
+        return $this->reviews()->count();
+    }
 }
