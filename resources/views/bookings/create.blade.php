@@ -88,6 +88,88 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Reviews Section -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold">Customer Reviews ({{ $vehicle->reviewCount() }})</h5>
+                            <div class="text-warning fs-5">
+                                @php $rating = round($vehicle->averageRating()); @endphp
+                                @for($i = 1; $i <= 5; $i++)
+                                    @if($i <= $rating)
+                                        <i class="fas fa-star"></i>
+                                    @else
+                                        <i class="far fa-star"></i>
+                                    @endif
+                                @endfor
+                                <span class="text-dark ms-2 fw-bold">{{ number_format($vehicle->averageRating(), 1) }} / 5</span>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            @if(session('success'))
+                                <div class="alert alert-success">{{ session('success') }}</div>
+                            @endif
+                            @if(session('error'))
+                                <div class="alert alert-danger">{{ session('error') }}</div>
+                            @endif
+
+                            @if($hasCompletedBooking)
+                                <!-- Review Submission Form -->
+                                <div class="mb-5 bg-light p-4 rounded">
+                                    <h6 class="fw-bold mb-3">Write a Review</h6>
+                                    <form action="{{ route('reviews.store', $vehicle->id) }}" method="POST">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Rating</label>
+                                            <select class="form-select" name="rating" required>
+                                                <option value="5" selected>5 - Excellent</option>
+                                                <option value="4">4 - Very Good</option>
+                                                <option value="3">3 - Average</option>
+                                                <option value="2">2 - Poor</option>
+                                                <option value="1">1 - Terrible</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Comment (Optional)</label>
+                                            <textarea class="form-control" name="comment" rows="3" placeholder="Share your experience..."></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary fw-bold">Submit Review</button>
+                                    </form>
+                                </div>
+                            @endif
+
+                            <!-- List Reviews -->
+                            @forelse($vehicle->reviews as $review)
+                                <div class="border-bottom pb-4 mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="fw-bold mb-0">{{ $review->user->name }}</h6>
+                                        <div class="text-warning small">
+                                            @for($i = 1; $i <= 5; $i++)
+                                                @if($i <= $review->rating)
+                                                    <i class="fas fa-star"></i>
+                                                @else
+                                                    <i class="far fa-star"></i>
+                                                @endif
+                                            @endfor
+                                        </div>
+                                    </div>
+                                    <small class="text-muted d-block mb-2">{{ $review->created_at->format('M d, Y') }}</small>
+                                    @if($review->comment)
+                                        <p class="mb-0">{{ $review->comment }}</p>
+                                    @endif
+                                </div>
+                            @empty
+                                <div class="text-center text-muted py-4">
+                                    <i class="far fa-comment-alt fs-1 mb-3 opacity-50"></i>
+                                    <p>No reviews yet for this vehicle.</p>
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout>
