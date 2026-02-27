@@ -24,12 +24,16 @@
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <span class="badge bg-light text-dark border">{{ $vehicle->brand }}</span>
-                        <div class="text-warning small">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+                        <div class="text-warning small d-flex align-items-center">
+                            @php $rating = round($vehicle->averageRating()); @endphp
+                            @for($i = 1; $i <= 5; $i++)
+                                @if($i <= $rating)
+                                    <i class="fas fa-star"></i>
+                                @else
+                                    <i class="far fa-star"></i>
+                                @endif
+                            @endfor
+                            <span class="text-muted ms-1">({{ $vehicle->reviewCount() }})</span>
                         </div>
                     </div>
                     
