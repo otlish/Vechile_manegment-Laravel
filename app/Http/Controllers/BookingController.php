@@ -15,7 +15,17 @@ class BookingController extends Controller
      */
     public function create(Vehicle $vehicle)
     {
-        return view('bookings.create', compact('vehicle'));
+        $vehicle->load(['reviews.user']); // Load reviews with user data
+        
+        $hasCompletedBooking = false;
+        if (Auth::check()) {
+            $hasCompletedBooking = \App\Models\Booking::where('user_id', Auth::id())
+                ->where('vehicle_id', $vehicle->id)
+                ->where('status', 'completed')
+                ->exists();
+        }
+
+        return view('bookings.create', compact('vehicle', 'hasCompletedBooking'));
     }
 
     /**
@@ -27,7 +37,7 @@ class BookingController extends Controller
 
         $request->validate([
             'start_date' => 'required|date|after_or_equal:today',
-            'end_date' => 'required|date|after:start_date',
+            'end_date' => 'required|date|after_or_equal:start_date',
         ]);
 
         if ($vehicle->status !== 'available') {
@@ -52,8 +62,8 @@ class BookingController extends Controller
         }
 
         // Calculate total price
-        $days = $startDate->diffInDays($endDate) + 1;
-        $totalPrice = $startDate->diffInDays($endDate) * $vehicle->daily_rent_price;
+        $days = (int) $startDate->diffInDays($endDate) + 1;
+        $totalPrice = $days * $vehicle->daily_rent_price;
         
         \Illuminate\Support\Facades\Log::info('Creating booking record...');
 
