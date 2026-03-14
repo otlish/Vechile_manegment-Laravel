@@ -115,30 +115,6 @@
                                 <div class="alert alert-danger">{{ session('error') }}</div>
                             @endif
 
-                            @if($hasCompletedBooking)
-                                <!-- Review Submission Form -->
-                                <div class="mb-5 bg-light p-4 rounded">
-                                    <h6 class="fw-bold mb-3">Write a Review</h6>
-                                    <form action="{{ route('reviews.store', $vehicle->id) }}" method="POST">
-                                        @csrf
-                                        <div class="mb-3">
-                                            <label class="form-label fw-bold">Rating</label>
-                                            <select class="form-select" name="rating" required>
-                                                <option value="5" selected>5 - Excellent</option>
-                                                <option value="4">4 - Very Good</option>
-                                                <option value="3">3 - Average</option>
-                                                <option value="2">2 - Poor</option>
-                                                <option value="1">1 - Terrible</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label fw-bold">Comment (Optional)</label>
-                                            <textarea class="form-control" name="comment" rows="3" placeholder="Share your experience..."></textarea>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary fw-bold">Submit Review</button>
-                                    </form>
-                                </div>
-                            @endif
 
                             <!-- List Reviews -->
                             @forelse($vehicle->reviews as $review)
