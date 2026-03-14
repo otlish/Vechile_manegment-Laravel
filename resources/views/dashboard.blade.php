@@ -88,6 +88,84 @@
                 </div>
             </div>
         </div>
+    <!-- Pending Reviews Section -->
+    @if(isset($pendingReviews) && $pendingReviews->isNotEmpty())
+    <style>
+        .star-rating-custom {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+        .star-rating-custom input[type="radio"] {
+            display: none;
+        }
+        .star-rating-custom label {
+            font-size: 1.5rem;
+            color: #dee2e6;
+            cursor: pointer;
+            margin-left: 0.2rem;
+            transition: color 0.2s ease-in-out;
+        }
+        .star-rating-custom input[type="radio"]:checked ~ label,
+        .star-rating-custom label:hover,
+        .star-rating-custom label:hover ~ label {
+            color: #ffc107;
+        }
+    </style>
+    <div class="row mt-5">
+        <div class="col-md-12 mb-3">
+            <h4 class="fw-bold text-primary-dark">Pending Reviews</h4>
+            <p class="text-muted">Please leave a review for your recently returned vehicles.</p>
+        </div>
+        
+        <div class="col-md-12">
+            <div class="row g-4">
+                @foreach($pendingReviews as $booking)
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-light rounded me-3 text-center overflow-hidden" style="width: 50px; height: 50px;">
+                                    @if($booking->vehicle->image)
+                                        <img src="{{ asset('storage/' . $booking->vehicle->image) }}" alt="{{ $booking->vehicle->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    @else
+                                        <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=100&q=80" alt="Car" style="width: 100%; height: 100%; object-fit: cover;">
+                                    @endif
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">{{ $booking->vehicle->name ?? 'Unknown' }}</h6>
+                                    <small class="text-muted">Returned on {{ \Carbon\Carbon::parse($booking->updated_at)->format('M d, Y') }}</small>
+                                </div>
+                            </div>
+                            
+                            <form action="{{ route('reviews.store', $booking->id) }}" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted">Rating</label>
+                                    <div class="star-rating-custom">
+                                        @for($i = 5; $i >= 1; $i--)
+                                        <input type="radio" name="rating" id="rating{{ $booking->id }}_{{ $i }}" value="{{ $i }}" required>
+                                        <label for="rating{{ $booking->id }}_{{ $i }}" title="{{ $i }} stars">
+                                            <i class="fas fa-star"></i>
+                                        </label>
+                                        @endfor
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted" for="comment_{{ $booking->id }}">Comment (Optional)</label>
+                                    <textarea class="form-control" name="comment" id="comment_{{ $booking->id }}" rows="2" placeholder="How was your experience?"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 rounded-pill">Submit Review</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    @endif
+
     <!-- Available Vehicles Section -->
     <div class="row mt-5" id="available-cars">
         <div class="col-md-12 mb-3">
@@ -115,8 +193,8 @@
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="badge bg-light text-dark border">{{ $vehicle->brand }}</span>
-                            <div class="text-warning small">
-                                <i class="fas fa-star"></i>5.0
+                            <div class="text-warning small" title="{{ number_format($vehicle->averageRating(), 1) }} Average Rating">
+                                <i class="fas fa-star"></i>{{ number_format($vehicle->averageRating(), 1) }}
                             </div>
                         </div>
                         
