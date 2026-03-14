@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('vehicle_id')->constrained()->onDelete('cascade');
+            $table->foreignId('booking_id')->constrained()->onDelete('cascade');
             $table->integer('rating'); // 1 to 5
             $table->text('comment')->nullable();
             $table->timestamps();
+
+            $table->unique(['user_id', 'booking_id']);
         });
     }
 
