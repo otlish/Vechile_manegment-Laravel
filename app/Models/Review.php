@@ -9,6 +9,7 @@ class Review extends Model
     protected $fillable = [
         'user_id',
         'vehicle_id',
+        'booking_id',
         'rating',
         'comment',
     ];
@@ -21,5 +22,10 @@ class Review extends Model
     public function vehicle()
     {
         return $this->belongsTo(Vehicle::class);
+    }
+
+    public function booking()
+    {
+        return $this->belongsTo(Booking::class);
     }
 }
