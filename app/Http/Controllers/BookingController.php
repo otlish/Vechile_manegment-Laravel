@@ -17,15 +17,7 @@ class BookingController extends Controller
     {
         $vehicle->load(['reviews.user']); // Load reviews with user data
         
-        $hasCompletedBooking = false;
-        if (Auth::check()) {
-            $hasCompletedBooking = \App\Models\Booking::where('user_id', Auth::id())
-                ->where('vehicle_id', $vehicle->id)
-                ->where('status', 'completed')
-                ->exists();
-        }
-
-        return view('bookings.create', compact('vehicle', 'hasCompletedBooking'));
+        return view('bookings.create', compact('vehicle'));
     }
 
     /**
