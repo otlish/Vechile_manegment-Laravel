@@ -11,35 +11,33 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-    public function store(Request $request, Vehicle $vehicle)
+    public function store(Request $request, Booking $booking)
     {
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string|max:1000',
         ]);
 
-        // Check if user has a completed booking for this vehicle
-        $hasCompletedBooking = Booking::where('user_id', Auth::id())
-            ->where('vehicle_id', $vehicle->id)
-            ->where('status', 'completed')
-            ->exists();
+        // Check if user owns the booking and it is completed
+        if ($booking->user_id !== Auth::id()) {
+            return back()->with('error', 'Unauthorized action.');
+        }
 
-        if (!$hasCompletedBooking) {
+        if ($booking->status !== 'completed') {
             return back()->with('error', 'You can only review vehicles you have rented and returned.');
         }
 
-        // Check if user already reviewed
-        $existingReview = Review::where('user_id', Auth::id())
-            ->where('vehicle_id', $vehicle->id)
-            ->first();
+        // Check if user already reviewed this booking
+        $existingReview = Review::where('booking_id', $booking->id)->first();
 
         if ($existingReview) {
-            return back()->with('error', 'You have already reviewed this vehicle.');
+            return back()->with('error', 'You have already reviewed this booking.');
         }
 
         Review::create([
             'user_id' => Auth::id(),
-            'vehicle_id' => $vehicle->id,
+            'vehicle_id' => $booking->vehicle_id,
+            'booking_id' => $booking->id,
             'rating' => $request->rating,
             'comment' => $request->comment,
         ]);
