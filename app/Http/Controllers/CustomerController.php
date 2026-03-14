@@ -20,9 +20,16 @@ class CustomerController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $availableVehicles = \App\Models\Vehicle::where('status', 'available')->latest()->take(6)->get();
+        $availableVehicles = \App\Models\Vehicle::with('reviews')->where('status', 'available')->latest()->take(6)->get();
 
-        return view('dashboard', compact('activeRentals', 'availableVehicles'));
+        $pendingReviews = Booking::with('vehicle')
+            ->where('user_id', Auth::id())
+            ->where('status', 'completed')
+            ->doesntHave('review')
+            ->latest()
+            ->get();
+
+        return view('dashboard', compact('activeRentals', 'availableVehicles', 'pendingReviews'));
     }
 
     public function history()
@@ -38,7 +45,7 @@ class CustomerController extends Controller
 
     public function browse()
     {
-        $vehicles = \App\Models\Vehicle::where('status', 'available')->latest()->get();
+        $vehicles = \App\Models\Vehicle::with('reviews')->where('status', 'available')->latest()->get();
         return view('customer.browse', compact('vehicles'));
     }
 
