@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/book/{vehicle}', [App\Http\Controllers\BookingController::class, 'store'])->name('bookings.store');
     
     // Review Routes
-    Route::post('/vehicles/{vehicle}/reviews', [App\Http\Controllers\ReviewController::class, 'store'])->name('reviews.store');
+    Route::post('/bookings/{booking}/reviews', [App\Http\Controllers\ReviewController::class, 'store'])->name('reviews.store');
 
     // eSewa Payment Routes
     Route::get('/esewa/success', [App\Http\Controllers\EsewaController::class, 'success'])->name('esewa.success');
